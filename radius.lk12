@@ -194,6 +194,7 @@ end
              
 function createdasher(x,y,amount)
  obj={}
+ obj.value=100
  obj.kind='contained'
  obj.initx=x
  obj.inity=y
@@ -222,6 +223,7 @@ end
      
 function createtrajectory(x,y,vx,vy)
  obj={}
+ obj.value=200
  obj.kind='contained'
  obj.initx=x
  obj.inity=y
@@ -249,6 +251,7 @@ function createpop(bx,by,bstp)
  obj=createintro(bx,by)
  
  ret={}
+ ret.value=100
  ret.x=bx
  ret.y=by
  ret.stp=bstp
@@ -299,8 +302,18 @@ function initlvl2()
 -- createbgevent(0,14,14,14)    
 -- createbgevent(0,14,14,14)
 -- createbgevent(0,14,14,14) 
- createdasher(48,48,48)  
- createdasher(128,64,64)      
+
+ createdasher(192,48,48)  
+ createdasher(192,64,64)      
+
+ createdasher(192,32,48)  
+ createdasher(192,16,64)      
+
+
+ createdasher(192,96,48)  
+ createdasher(192,80,64)      
+
+    
 end
 
 function boss(me,myindex)
@@ -344,6 +357,7 @@ end
 
 function createboss(x,y,amntx,amnty)
  obj={}
+ obj.value=100000
  obj.kind='contained'
  obj.initx=x
  obj.inity=y
@@ -473,9 +487,13 @@ function collwithbull(i,bd)
       boom.kind='boom'                     
       boom.stp=0
       boom.substp=0
+
+      score=score+bd.value
+      
       table.remove(baddies,i)
       table.insert(baddies,boom)
 
+      
 
       table.remove(pbull,j)  
             
@@ -541,24 +559,8 @@ function updategame()
    do
     --TODO push in behavior
     if bd.kind=='pop' then 
-     ret=coll88(pb.x,pb.y,bd.x,bd.y)
+     collwithbull(i,bd)
 
-          
-     if ret==1 then
-      boom={}
-      boom.x=bd.x
-      boom.y=bd.y
-      boom.kind='boom'                     
-      boom.stp=0
-      boom.substp=0
-      table.remove(baddies,i)
-      table.insert(baddies,boom)
-  --    tbad=NIL
-      table.remove(pbull,j)  
-            
-      break
-
-     end
     elseif bd.kind=='boom' then
      --nothing so far 
     end
@@ -680,7 +682,8 @@ function drawgame()
   print(msg,64,64)
  end
 
- print(tablelength(bgevents))
+print(score,0,120)
+-- print(tablelength(bgevents))
 end
 
 --drawfunc=drawgame
